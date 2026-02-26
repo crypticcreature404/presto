@@ -28,22 +28,22 @@
     <cfset folderList = listAppend(folderList, folderName)>
 
     <!--- Move uploaded PDF into folder --->
-    <cffile 
+    <cffile
         action="move"
         source="#uploadDir##fileName#"
         destination="#targetFolder##fileName#">
 
     <!--- Determine template file --->
-    <cfset useTemplateCopy = "standard.pdf">
+    <cfset useTemplateCopy = "Standard Output Template.pdf">
     <cfif selectedTemplate EQ "SINGLE">
-        <cfset useTemplateCopy = "single.pdf">
+        <cfset useTemplateCopy = "Single Output Template.pdf">
     </cfif>
 
     <cfset templatePath = appConfig.templatePath & useTemplateCopy> <!--- Use templatePath from config --->
 
     <!--- Create base PRINT.pdf --->
     <cfif fileExists(templatePath)>
-        <cffile 
+        <cffile
             action="copy"
             source="#templatePath#"
             destination="#targetFolder##folderName# PRINT.pdf">
@@ -71,11 +71,13 @@
             <cfset suffix = "LC">
         <cfelseif loc EQ "BACK NAPE (BN)">
             <cfset suffix = "BN">
+        <cfelseif loc EQ "No Screens">
+            <cfset suffix = "RM">
         </cfif>
 
         <!--- Only create extra copies for FB or FF --->
         <cfif len(suffix)>
-            <cffile 
+            <cffile
                 action="copy"
                 source="#targetFolder##folderName# PRINT.pdf"
                 destination="#targetFolder##folderName# #suffix# PRINT.pdf">
@@ -84,7 +86,7 @@
     </cfloop>
 
     <p>
-        Processed <strong>#fileName#</strong> in to Folder <strong>#folderName#</strong><br />  
+        Processed <strong>#fileName#</strong> in to Folder <strong>#folderName#</strong><br />
         Template: <strong>#selectedTemplate#</strong>
     </p>
 
@@ -93,10 +95,10 @@
 </cfoutput>
 
 <p><strong>All files processed successfully.</strong> </p>
-    
+
 Here is a list of the folders you generated: [<a href="javascript:void(0)" onclick="copyToClipboard()">Copy to Clipboard</a>]<br>
 <textarea rows="10" cols="50" readonly id="folderListTextarea"><cfoutput>#replaceNoCase(folderList, ",", "#chr(10)#","all")#</cfoutput></textarea>
-    
+
 <p>[<a href="uploadForm.cfm">Return to upload page</a>]</p>
 
 <script>
@@ -109,4 +111,4 @@ function copyToClipboard() {
 </script>
 
 
-<cfinclude template="footer.cfm">  
+<cfinclude template="footer.cfm">

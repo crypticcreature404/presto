@@ -9,7 +9,7 @@
 </cfif>
 
 <!--- Handle file uploads --->
-<cffile 
+<cffile
     action="uploadAll"
     destination="#uploadDir#"
     nameConflict="overwrite"
@@ -40,8 +40,8 @@
             <cfif findNoCase("PRODUCTION", useFolderName) GT 0>
                 <cfset useFolderName = replace(useFolderName, "PRODUCTION", "", "all")>
             </cfif>
-            <input type="text" name="folder_#savedName#" 
-                   value="#trim(useFolderName)#" 
+            <input type="text" name="folder_#savedName#"
+                   value="#trim(useFolderName)#"
                    style="width:250px;">
             <br><br>
 
@@ -49,6 +49,7 @@
             <label><strong>Location(s):</strong></label><br>
             <select name="location_#savedName#[]" multiple size="3" style="width:250px;" size>
                 <option value="No Location Specified" selected>No Location Specified</option>
+                <option value="No Screens">No Screens / Applique Only</option>
                 <option value="FULL BACK (FB)">FULL BACK (FB)</option>
                 <option value="FULL FRONT (FF)">FULL FRONT (FF)</option>
                 <option value="LEFT CHEST (LC)">LEFT CHEST (LC)</option>
@@ -74,9 +75,9 @@
 
         </div>
     </cfloop>
-
+	<br><br>
     <input type="submit" value="Create Folders &amp; Move Files">
-
+	<br><br>
 </form>
 </cfoutput>
 
