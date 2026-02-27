@@ -1,4 +1,4 @@
 ﻿component {
 
-	this.Name = "Lucee";
+	this.Name = "Presto!";
 }

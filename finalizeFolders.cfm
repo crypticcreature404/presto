@@ -69,11 +69,25 @@
             <cfset suffix = "FF">
         <cfelseif loc EQ "LEFT CHEST (LC)">
             <cfset suffix = "LC">
+            <cfelseif loc EQ "LEFT CHEST (LC)">
         <cfelseif loc EQ "BACK NAPE (BN)">
             <cfset suffix = "BN">
+         <cfelseif loc EQ "RIGHT CHEST (RC)">
+                <cfset suffix = "RC">
+        <cfelseif loc EQ "RIGHT SLEEVE (RS)">
+                <cfset suffix = "RS">
+        <cfelseif loc EQ "LEFT SLEEVE (LS)">
+                <cfset suffix = "LS">
+        <cfelseif loc EQ "LEFT THIGH (LT)">
+                <cfset suffix = "LT">
+        <cfelseif loc EQ "RIGHT THIGH (RT)">
+            <cfset suffix = "RT">
         <cfelseif loc EQ "No Screens">
             <cfset suffix = "RM">
         </cfif>
+
+
+
 
         <!--- Only create extra copies for FB or FF --->
         <cfif len(suffix)>
@@ -95,6 +109,8 @@
 </cfoutput>
 
 <p><strong>All files processed successfully.</strong> </p>
+
+<cfset folderList = listSort(folderList, "text", "asc") />
 
 Here is a list of the folders you generated: [<a href="javascript:void(0)" onclick="copyToClipboard()">Copy to Clipboard</a>]<br>
 <textarea rows="10" cols="50" readonly id="folderListTextarea"><cfoutput>#replaceNoCase(folderList, ",", "#chr(10)#","all")#</cfoutput></textarea>
