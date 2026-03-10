@@ -37,12 +37,12 @@
             --->
 
 
-            <div id="pdf-preview-box"><iframe id="preview-frame" width="100%" height="100%" frameborder="0"></iframe></div>
+            <div id="pdf-preview-box"><iframe id="preview-frame" width="100" height="400" frameborder="0"></iframe></div>
 
             <!-- Your ColdFusion Links -->
             <a href="#fileUrl#"
-               onmouseenter="anchorPreview(this, '#fileUrl#')"
-               onmouseleave="clearPreview(this)">
+               onMouseOver="anchorPreview(this, '#fileUrl#')"
+               onMouseOut="clearPreview(this)">
                #savedName#
             </a>
 
@@ -139,13 +139,17 @@
 
     // 2. Get the link's position relative to the viewport
     const rect = el.getBoundingClientRect();
+    console.log(rect);
 
     // 3. Calculate position (Relative to the Page Scroll)
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    console.log(scrollLeft);
+    console.log(scrollTop);
 
     // 4. Place box to the RIGHT of the link with 15px gap
     box.style.left = (rect.right + scrollLeft + 15) + 'px';
+    console.log("boxStyleLeft: " + box.style.left);
     box.style.top = (rect.top + scrollTop) + 'px';
 
     // 5. Show and Load
