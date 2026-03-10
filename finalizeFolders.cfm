@@ -58,6 +58,8 @@
         <cfset selectedLocations = [ selectedLocations ]>
     </cfif>
 
+    <cfset deletePrintMasterFileFlag = 0 />
+
     <!--- Loop through selected locations and create copies --->
     <cfloop array="#selectedLocations#" index="loc">
 
@@ -89,15 +91,25 @@
 
 
 
-        <!--- Only create extra copies for FB or FF --->
+        <!--- Create extra copies based on suffix --->
         <cfif len(suffix)>
-            <cffile
-                action="copy"
-                source="#targetFolder##folderName# PRINT.pdf"
-                destination="#targetFolder##folderName# #suffix# PRINT.pdf">
+        	<cfif suffix is not "RM">
+	            <cffile
+	                action="copy"
+	                source="#targetFolder##folderName# PRINT.pdf"
+	                destination="#targetFolder##folderName# #suffix# PRINT.pdf">
+            </cfif>
+            <cfset deletePrintMasterFileFlag = 1 />
         </cfif>
 
     </cfloop>
+
+    <cfif deletePrintMasterFileFlag gt 0>
+	    <cffile
+	        action="delete"
+	        file="#targetFolder##folderName# PRINT.pdf">
+    </cfif>
+
 
     <p>
         Processed <strong>#fileName#</strong> in to Folder <strong>#folderName#</strong><br />
