@@ -1,4 +1,4 @@
-<!--- 
+<!---
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +13,21 @@
  <cfset variables.styleIncl = "assets/css/uploadForm.css">
  <cfinclude template="header.cfm">
 
+ <cfset baseSaveDir = appConfig.outputPath > <!--- Use outputPath from config --->
 
 <!---<h2>Upload PDF Files</h2>--->
+
+<cftry>
+<cfdirectory directory="#baseSaveDir#" action="list" name="outputFileList" />
+<cfdirectory action="list"
+             directory="#expandPath('.')#"
+             name="dirOnly"
+             type="dir">
+    <cfif outputFileList.recordcount gt 1>
+       	<h2 style="color:#ff0000;">There are currently directories in your Output folder (<cfoutput>#baseSaveDir#</cfoutput>). You might want to delete or relocate them to continue.</h2>
+	</cfif>
+<cfcatch></cfcatch>
+</cftry>
 
 <form action="processUploads.cfm" method="post" enctype="multipart/form-data">
 
@@ -35,7 +48,7 @@
 
         <br>
         <input type="submit" id="uploadBtn" value="Upload PDFs" disabled>
-    </div>  
+    </div>
 </form>
 
 
