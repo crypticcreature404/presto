@@ -21,6 +21,7 @@
 <cfoutput>
 <form action="finalizeFolders.cfm" method="post">
     <cfset variables.counter = 1 />
+    <div id="pdf-preview-box"><iframe id="preview-frame" width="1000" height="600" frameborder="0"></iframe></div>
     <cfloop array="#uploadResults#" index="fileInfo">
         <cfset savedName = fileInfo.serverFile>
         <cfset fileUrl = uploadUrl & savedName>
@@ -37,12 +38,11 @@
             --->
 
 
-            <div id="pdf-preview-box"><iframe id="preview-frame" width="100" height="400" frameborder="0"></iframe></div>
 
             <!-- Your ColdFusion Links -->
             <a href="#fileUrl#"
                onMouseOver="anchorPreview(this, '#fileUrl#')"
-               onMouseOut="clearPreview(this)">
+               onMouseOut="clearPreview(this)" target="_blank">
                #savedName#
             </a>
 
