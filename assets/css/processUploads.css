@@ -1,9 +1,9 @@
 /*.preview-active {*/
 #pdf-preview-box {
 	display: none;
-	position: relative;
-	width: 100px;
-	height: 400px;
+	position: absolute;
+	width: 1000px;
+	height: 600px;
 	background: white;
 	border: 1px solid #999;
 	box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
