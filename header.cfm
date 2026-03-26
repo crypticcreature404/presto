@@ -63,10 +63,15 @@
             margin: 15px 0;
             cursor: pointer;
             font-size: 16px;
+            color: white
         }
 
         .nav-item:hover {
             color: #D7263D;
+        }
+
+        .nav-item:visited {
+            color: yellow;
         }
 
         /* Top bar */
@@ -107,8 +112,9 @@
     <div class="sidebar">
         <h1><a href="index.cfm">PRESTO!</a></h1>
 
-        <div class="nav-item">Dashboard</div>
-        <div class="nav-item"><a href="uploadForm.cfm">Uploads</a></div>
+        <div><strong>Dashboard</strong></div>
+        <div class="nav-item"><a class="nav-item" href="uploadForm.cfm">Uploads</a></div>
+        <div class="nav-item"><a class="nav-item" href="pipelineLookup.cfm">Pipeline Lookups</a></div>
         <!---<div class="nav-item">Jobs</div>
         <div class="nav-item">Templates</div>
         <div class="nav-item">Approvals</div>
