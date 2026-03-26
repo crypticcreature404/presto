@@ -64,18 +64,36 @@
     <cfloop array="#selectedLocations#" index="loc">
 
         <cfset suffix = "">
-
+<!---
+FULL BACK (FB)
+FULL FRONT (FF)
+LEFT CHEST (LC)
+RIGHT CHEST (RC)
+BACK NAPE (BN)
+RIGHT SLEEVE (RS)
+LEFT SLEEVE (LS)
+LEFT THIGH (LT)
+RIGHT THIGH (RT)
+LOWER FRONT (LF)
+LOWER BACK (LB)
+UPPER FRONT (UF)
+UPPER BACK (UB)
+LEFT WRIST (LW)
+RIGHT WRIST (RW)
+LEFT LEG (LL)
+RIGHT LEG (RL)
+NECK LABEL (NL)
+--->
         <cfif loc EQ "FULL BACK (FB)">
             <cfset suffix = "FB">
         <cfelseif loc EQ "FULL FRONT (FF)">
             <cfset suffix = "FF">
         <cfelseif loc EQ "LEFT CHEST (LC)">
             <cfset suffix = "LC">
-            <cfelseif loc EQ "LEFT CHEST (LC)">
+        <cfelseif loc EQ "RIGHT CHEST (RC)">
+                <cfset suffix = "RC">
         <cfelseif loc EQ "BACK NAPE (BN)">
             <cfset suffix = "BN">
-         <cfelseif loc EQ "RIGHT CHEST (RC)">
-                <cfset suffix = "RC">
         <cfelseif loc EQ "RIGHT SLEEVE (RS)">
                 <cfset suffix = "RS">
         <cfelseif loc EQ "LEFT SLEEVE (LS)">
@@ -84,6 +102,13 @@
                 <cfset suffix = "LT">
         <cfelseif loc EQ "RIGHT THIGH (RT)">
             <cfset suffix = "RT">
+        <cfelseif loc EQ "LOWER FRONT (LF)">
+            <cfset suffix = "LF">
+        <cfelseif loc EQ "LOWER BACK (LB)">
+            <cfset suffix = "LB">
+
+
+
         <cfelseif loc EQ "No Screens">
             <cfset suffix = "RM">
         </cfif>
