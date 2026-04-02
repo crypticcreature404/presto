@@ -27,6 +27,32 @@
     <cfset appConfig[key] = val>
 </cfloop>
 
+<cfset useVersion = "not available" />
+<cfset lastModified = "not available" />
+<cfscript>
+    // 1. Get the path to your file (relative to your current folder)
+    filePath = expandPath("./version.json");
+
+    // 2. Check if the file exists before reading
+    if (fileExists(filePath)) {
+        // 3. Read the file content
+        fileContent = fileRead(filePath);
+
+        // 4. Convert the JSON string into a ColdFusion Structure
+        versionData = deserializeJSON(fileContent);
+
+        // 5. Output the data
+        //writeOutput("Version: " & versionData.version & "<br>");
+        useVersion = versionData.version;
+        lastModified = versionData.last_updated;
+        //writeOutput("Last Updated: " & versionData.last_updated);
+    } else {
+        writeOutput("Version file not found.");
+    }
+</cfscript>
+
+
+
 <!--- Now you can use appConfig.outputPath, appConfig.tempPath, etc. --->
 
 <!DOCTYPE html>
@@ -74,6 +100,16 @@
             color: yellow;
         }
 
+        .logoStyle {
+        	color: white;
+         	text-decoration: none;
+        }
+
+        .version {
+        	font-size:12px;
+         	color: white;
+        }
+
         /* Top bar */
         .topbar {
             margin-left: 240px;
@@ -110,7 +146,7 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <h1><a href="index.cfm">PRESTO!</a></h1>
+        <h1><a href="index.cfm" class="logoStyle">PRESTO!</a></h1>
 
         <div><strong>Dashboard</strong></div>
         <div class="nav-item"><a class="nav-item" href="uploadForm.cfm">Uploads</a></div>
@@ -119,12 +155,25 @@
         <div class="nav-item">Templates</div>
         <div class="nav-item">Approvals</div>
         <div class="nav-item">Settings</div>--->
+
+
+        <div>&nbsp;</div>
+
+
+        <cfoutput>
+        <div class="version">
+	        ver. #useVersion#<br>
+	        last modified. #lastModified#
+		</div>
+        </cfoutput>
+
     </div>
 
     <!-- Top bar -->
     <div class="topbar">
         <span class="card"><cfif isDefined("variables.title")><cfoutput>#variables.title#</cfoutput><cfelse>Presto Dashboard</cfif></span>
     </div>
+
 
     <!-- Main content -->
     <div class="content">

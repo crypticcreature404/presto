@@ -19,7 +19,7 @@
 
 <h2>Assign Folders &amp; Types for Each PDF</h2>
 <cfoutput>
-<form action="finalizeFolders.cfm" method="post">
+<form action="finalizeFolders.cfm" method="post" id="myForm">
     <cfset variables.counter = 1 />
     <div id="pdf-preview-box"><iframe id="preview-frame" width="1000" height="600" frameborder="0"></iframe></div>
     <cfloop array="#uploadResults#" index="fileInfo">
@@ -115,6 +115,18 @@
 </form>
 </cfoutput>
 
+
+
+<!-- Processing Modal -->
+<div id="loadingModal" class="modal">
+  <div class="modal-content">
+    <div class="loader"></div>
+    <p>Processing, please wait...</p>
+  </div>
+</div>
+
+
+
 <cfinclude template="footer.cfm">
 
 <script>
@@ -161,4 +173,24 @@
     el.style.backgroundColor = 'transparent';
     box.style.display = 'none';
   }
+
+
+  //ADDED FOR MODAL PROGRESS INDICATOR
+  const form = document.getElementById('myForm');
+  const modal = document.getElementById('loadingModal');
+
+  form.addEventListener('submit', function(e) {
+    // 1. Show the modal
+    modal.style.display = 'block';
+
+    // 2. (Optional) If using AJAX/Fetch, hide it after completion
+    /*
+    fetch('/submit', { method: 'POST', body: new FormData(form) })
+      .then(response => response.json())
+      .then(data => {
+        modal.style.display = 'none'; // Hide when done
+      });
+    */
+  });
+
 </script>

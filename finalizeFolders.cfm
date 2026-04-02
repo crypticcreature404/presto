@@ -64,26 +64,28 @@
     <cfloop array="#selectedLocations#" index="loc">
 
         <cfset suffix = "">
-<!---
-FULL BACK (FB)
-FULL FRONT (FF)
-LEFT CHEST (LC)
-RIGHT CHEST (RC)
-BACK NAPE (BN)
-RIGHT SLEEVE (RS)
-LEFT SLEEVE (LS)
-LEFT THIGH (LT)
-RIGHT THIGH (RT)
-LOWER FRONT (LF)
-LOWER BACK (LB)
-UPPER FRONT (UF)
-UPPER BACK (UB)
-LEFT WRIST (LW)
-RIGHT WRIST (RW)
-LEFT LEG (LL)
-RIGHT LEG (RL)
-NECK LABEL (NL)
---->
+
+
+		<!---
+		FULL BACK (FB)
+		FULL FRONT (FF)
+		LEFT CHEST (LC)
+		RIGHT CHEST (RC)
+		BACK NAPE (BN)
+		RIGHT SLEEVE (RS)
+		LEFT SLEEVE (LS)
+		LEFT THIGH (LT)
+		RIGHT THIGH (RT)
+		LOWER FRONT (LF)
+		LOWER BACK (LB)
+		UPPER FRONT (UF)
+		UPPER BACK (UB)
+		LEFT WRIST (LW)
+		RIGHT WRIST (RW)
+		LEFT LEG (LL)
+		RIGHT LEG (RL)
+		NECK LABEL (NL)
+		--->
         <cfif loc EQ "FULL BACK (FB)">
             <cfset suffix = "FB">
         <cfelseif loc EQ "FULL FRONT (FF)">
@@ -126,6 +128,77 @@ NECK LABEL (NL)
             </cfif>
             <cfset deletePrintMasterFileFlag = 1 />
         </cfif>
+
+        <cfscript>
+            // 1. Setup paths
+            exifToolPath = "/usr/local/bin/exiftool";
+            sourceDir    = "#targetFolder#";
+
+            // 2. Get the list of PDF files
+            files = directoryList(sourceDir, false, "name", "*.pdf");
+
+            for (fileName in files) {
+                try {
+                    // CHECK FOR "PRODUCTION"
+                    // If "production" is found (case-insensitive), we skip the metadata update
+                    if (findNoCase("production", fileName)) {
+                        //writeOutput("<p>Skipping metadata for: #fileName# (contains 'production')</p>");
+                        continue; // Moves to the next file in the loop
+                    }
+
+                    fullSourcePath = sourceDir & fileName;
+
+                    // HANDLE MULTIPLE DOTS
+                    // listLen gets the total number of parts separated by dots
+                    // listDeleteAt removes only the last part (the extension)
+                    totalParts = listLen(fileName, ".");
+                    newTitle   = listDeleteAt(fileName, totalParts, ".");
+
+                    //writeOutput("<h1>Processing: #newTitle#</h1>");
+
+                    // Update XMP Title using ExifTool
+                    cfexecute(
+                        name      = exifToolPath,
+                        arguments = "-overwrite_original -Title=""#newTitle#"" ""#fullSourcePath#""",
+                        variable  = "local.stdOut",
+                        errorVariable = "local.stdErr",
+                        timeout   = 20
+                    );
+                    // Log Success Output
+                    if (len(trim(local.stdOut))) {
+                        writeLog(
+                            file = "exiftool_results",
+                            type = "Information",
+                            text = "ExifTool Success: #local.stdOut#"
+                        );
+                    }
+
+                    // Log Error Output
+                    /*if (len(trim(local.stdErr))) {
+                        writeLog(
+                            file = "exiftool_results",
+                            type = "Error",
+                            text = "ExifTool Error: #local.stdErr#"
+                        );
+                    }*/
+                    // Brief pause to ensure OS file handles are released
+                    sleep(500);
+
+                    // Safety check for ExifTool errors
+                    if (structKeyExists(local, "stdErr") AND len(local.stdErr)) {
+                        throw(message="ExifTool Error: #local.stdErr#");
+                    }
+
+                } catch (any e) {
+                    writeOutput("<h3>An error occurred processing: #fileName#</h3>");
+                    writeOutput("<p><strong>Message:</strong> #e.message#</p>");
+                    writeOutput("<p><strong>Detail:</strong> #e.detail#</p>");
+                    abort;
+                }
+            }
+
+            writeOutput("Processing complete!");
+        </cfscript>
 
     </cfloop>
 
